@@ -7,13 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B501DFFA1C30F1AF00D052CB /* PetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B501DFF91C30F1AF00D052CB /* PetViewController.swift */; };
+		B544EF9C1C2FA25500796724 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B544EF9A1C2FA25500796724 /* Utilities.swift */; };
+		B544EF9D1C2FA25500796724 /* UtilitiesConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B544EF9B1C2FA25500796724 /* UtilitiesConstants.swift */; };
+		B56193C21C290E6700B0C0FF /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56193C01C290E6700B0C0FF /* Pin+CoreDataProperties.swift */; };
+		B56193C31C290E6700B0C0FF /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56193C11C290E6700B0C0FF /* Pin.swift */; };
 		B5678BC91BF692BC00FE99B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5678BC81BF692BC00FE99B9 /* AppDelegate.swift */; };
-		B5678BCB1BF692BC00FE99B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5678BCA1BF692BC00FE99B9 /* ViewController.swift */; };
 		B5678BCE1BF692BC00FE99B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5678BCC1BF692BC00FE99B9 /* Main.storyboard */; };
 		B5678BD11BF692BC00FE99B9 /* PurrfectCompanion.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5678BCF1BF692BC00FE99B9 /* PurrfectCompanion.xcdatamodeld */; };
 		B5678BD31BF692BC00FE99B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5678BD21BF692BC00FE99B9 /* Assets.xcassets */; };
 		B5678BD61BF692BC00FE99B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5678BD41BF692BC00FE99B9 /* LaunchScreen.storyboard */; };
 		B5678BE11BF692BD00FE99B9 /* PurrfectCompanionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5678BE01BF692BD00FE99B9 /* PurrfectCompanionTests.swift */; };
+		B5678BEC1BF6936500FE99B9 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5678BEB1BF6936500FE99B9 /* CoreDataStack.swift */; };
+		B5678BEE1BF6974600FE99B9 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5678BED1BF6974600FE99B9 /* Client.swift */; };
+		B5A0BC4A1BFD7D98003DD876 /* Shelter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC441BFD7D98003DD876 /* Shelter+CoreDataProperties.swift */; };
+		B5A0BC4B1BFD7D98003DD876 /* Shelter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC451BFD7D98003DD876 /* Shelter.swift */; };
+		B5A0BC4C1BFD7D98003DD876 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC461BFD7D98003DD876 /* Photo+CoreDataProperties.swift */; };
+		B5A0BC4D1BFD7D98003DD876 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC471BFD7D98003DD876 /* Photo.swift */; };
+		B5A0BC4E1BFD7D98003DD876 /* Cat+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC481BFD7D98003DD876 /* Cat+CoreDataProperties.swift */; };
+		B5A0BC4F1BFD7D98003DD876 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC491BFD7D98003DD876 /* Cat.swift */; };
+		B5A0BC511BFD8236003DD876 /* Client+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A0BC501BFD8236003DD876 /* Client+Constants.swift */; };
+		B5C7E98E1C02D8DB0091E2F8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C7E98D1C02D8DB0091E2F8 /* MapViewController.swift */; };
+		B5C7E9941C02E0660091E2F8 /* ShelterListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C7E9931C02E0660091E2F8 /* ShelterListViewController.swift */; };
+		B5C7E9961C02E0C60091E2F8 /* ShelterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C7E9951C02E0C60091E2F8 /* ShelterViewController.swift */; };
+		B5C7E9981C02E29D0091E2F8 /* ShelterListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C7E9971C02E29D0091E2F8 /* ShelterListViewCell.swift */; };
+		B5C7E99A1C02E2DD0091E2F8 /* ShelterViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C7E9991C02E2DD0091E2F8 /* ShelterViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,9 +45,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B501DFF91C30F1AF00D052CB /* PetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PetViewController.swift; sourceTree = "<group>"; };
+		B544EF9A1C2FA25500796724 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		B544EF9B1C2FA25500796724 /* UtilitiesConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesConstants.swift; sourceTree = "<group>"; };
+		B56193C01C290E6700B0C0FF /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B56193C11C290E6700B0C0FF /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
 		B5678BC51BF692BC00FE99B9 /* PurrfectCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PurrfectCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5678BC81BF692BC00FE99B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B5678BCA1BF692BC00FE99B9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B5678BCD1BF692BC00FE99B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5678BD01BF692BC00FE99B9 /* PurrfectCompanion.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PurrfectCompanion.xcdatamodel; sourceTree = "<group>"; };
 		B5678BD21BF692BC00FE99B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +60,20 @@
 		B5678BDC1BF692BD00FE99B9 /* PurrfectCompanionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PurrfectCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5678BE01BF692BD00FE99B9 /* PurrfectCompanionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurrfectCompanionTests.swift; sourceTree = "<group>"; };
 		B5678BE21BF692BD00FE99B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5678BEB1BF6936500FE99B9 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		B5678BED1BF6974600FE99B9 /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		B5A0BC441BFD7D98003DD876 /* Shelter+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Shelter+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B5A0BC451BFD7D98003DD876 /* Shelter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shelter.swift; sourceTree = "<group>"; };
+		B5A0BC461BFD7D98003DD876 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B5A0BC471BFD7D98003DD876 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		B5A0BC481BFD7D98003DD876 /* Cat+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cat+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B5A0BC491BFD7D98003DD876 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
+		B5A0BC501BFD8236003DD876 /* Client+Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Client+Constants.swift"; sourceTree = "<group>"; };
+		B5C7E98D1C02D8DB0091E2F8 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B5C7E9931C02E0660091E2F8 /* ShelterListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShelterListViewController.swift; sourceTree = "<group>"; };
+		B5C7E9951C02E0C60091E2F8 /* ShelterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShelterViewController.swift; sourceTree = "<group>"; };
+		B5C7E9971C02E29D0091E2F8 /* ShelterListViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShelterListViewCell.swift; sourceTree = "<group>"; };
+		B5C7E9991C02E2DD0091E2F8 /* ShelterViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShelterViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,12 +116,30 @@
 			isa = PBXGroup;
 			children = (
 				B5678BC81BF692BC00FE99B9 /* AppDelegate.swift */,
-				B5678BCA1BF692BC00FE99B9 /* ViewController.swift */,
+				B5C7E98D1C02D8DB0091E2F8 /* MapViewController.swift */,
+				B5C7E9931C02E0660091E2F8 /* ShelterListViewController.swift */,
+				B5C7E9951C02E0C60091E2F8 /* ShelterViewController.swift */,
+				B501DFF91C30F1AF00D052CB /* PetViewController.swift */,
+				B5C7E9971C02E29D0091E2F8 /* ShelterListViewCell.swift */,
+				B5C7E9991C02E2DD0091E2F8 /* ShelterViewCell.swift */,
+				B5678BEB1BF6936500FE99B9 /* CoreDataStack.swift */,
+				B5678BED1BF6974600FE99B9 /* Client.swift */,
+				B5A0BC501BFD8236003DD876 /* Client+Constants.swift */,
+				B56193C11C290E6700B0C0FF /* Pin.swift */,
+				B56193C01C290E6700B0C0FF /* Pin+CoreDataProperties.swift */,
+				B5A0BC451BFD7D98003DD876 /* Shelter.swift */,
+				B5A0BC441BFD7D98003DD876 /* Shelter+CoreDataProperties.swift */,
+				B5A0BC491BFD7D98003DD876 /* Cat.swift */,
+				B5A0BC481BFD7D98003DD876 /* Cat+CoreDataProperties.swift */,
+				B5A0BC471BFD7D98003DD876 /* Photo.swift */,
+				B5A0BC461BFD7D98003DD876 /* Photo+CoreDataProperties.swift */,
+				B544EF9A1C2FA25500796724 /* Utilities.swift */,
+				B544EF9B1C2FA25500796724 /* UtilitiesConstants.swift */,
 				B5678BCC1BF692BC00FE99B9 /* Main.storyboard */,
-				B5678BD21BF692BC00FE99B9 /* Assets.xcassets */,
 				B5678BD41BF692BC00FE99B9 /* LaunchScreen.storyboard */,
-				B5678BD71BF692BC00FE99B9 /* Info.plist */,
 				B5678BCF1BF692BC00FE99B9 /* PurrfectCompanion.xcdatamodeld */,
+				B5678BD71BF692BC00FE99B9 /* Info.plist */,
+				B5678BD21BF692BC00FE99B9 /* Assets.xcassets */,
 			);
 			path = PurrfectCompanion;
 			sourceTree = "<group>";
@@ -200,9 +254,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5678BCB1BF692BC00FE99B9 /* ViewController.swift in Sources */,
+				B5A0BC511BFD8236003DD876 /* Client+Constants.swift in Sources */,
+				B5C7E9941C02E0660091E2F8 /* ShelterListViewController.swift in Sources */,
+				B5C7E99A1C02E2DD0091E2F8 /* ShelterViewCell.swift in Sources */,
+				B56193C31C290E6700B0C0FF /* Pin.swift in Sources */,
+				B5A0BC4B1BFD7D98003DD876 /* Shelter.swift in Sources */,
 				B5678BC91BF692BC00FE99B9 /* AppDelegate.swift in Sources */,
+				B5A0BC4F1BFD7D98003DD876 /* Cat.swift in Sources */,
+				B56193C21C290E6700B0C0FF /* Pin+CoreDataProperties.swift in Sources */,
+				B544EF9D1C2FA25500796724 /* UtilitiesConstants.swift in Sources */,
+				B5A0BC4D1BFD7D98003DD876 /* Photo.swift in Sources */,
+				B5C7E98E1C02D8DB0091E2F8 /* MapViewController.swift in Sources */,
+				B5A0BC4E1BFD7D98003DD876 /* Cat+CoreDataProperties.swift in Sources */,
+				B5A0BC4A1BFD7D98003DD876 /* Shelter+CoreDataProperties.swift in Sources */,
+				B501DFFA1C30F1AF00D052CB /* PetViewController.swift in Sources */,
+				B5C7E9981C02E29D0091E2F8 /* ShelterListViewCell.swift in Sources */,
+				B544EF9C1C2FA25500796724 /* Utilities.swift in Sources */,
 				B5678BD11BF692BC00FE99B9 /* PurrfectCompanion.xcdatamodeld in Sources */,
+				B5678BEE1BF6974600FE99B9 /* Client.swift in Sources */,
+				B5A0BC4C1BFD7D98003DD876 /* Photo+CoreDataProperties.swift in Sources */,
+				B5C7E9961C02E0C60091E2F8 /* ShelterViewController.swift in Sources */,
+				B5678BEC1BF6936500FE99B9 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +462,7 @@
 				B5678BE71BF692BD00FE99B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B5678BE81BF692BD00FE99B9 /* Build configuration list for PBXNativeTarget "PurrfectCompanionTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +471,7 @@
 				B5678BEA1BF692BD00FE99B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
