@@ -19,9 +19,9 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
     var long: String?
     
     //var editButton: UIBarButtonItem!
-    var refreshButton: UIBarButtonItem!
-    var trashButton: UIBarButtonItem!
-    var flexSpaceButton: UIBarButtonItem!
+    //var refreshButton: UIBarButtonItem!
+    //var trashButton: UIBarButtonItem!
+    //var flexSpaceButton: UIBarButtonItem!
     
     var shelterList: [Shelter]!
     var client: Client!
@@ -132,9 +132,9 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
     func setupUI()
     {
         // Navigation buttons
-        refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("refreshCollection"))
+        //refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("refreshCollection"))
         
-        navigationItem.setRightBarButtonItems([refreshButton], animated: true)
+        //navigationItem.setRightBarButtonItems([refreshButton], animated: true)
         navigationItem.title = pin.title
     }
     
