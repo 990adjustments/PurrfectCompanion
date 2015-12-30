@@ -119,7 +119,7 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="erN-JF-ZSW">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cell-image" translatesAutoresizingMaskIntoConstraints="NO" id="erN-JF-ZSW">
                                                     <rect key="frame" x="8" y="11" width="84" height="84"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="84" id="zDY-3Y-qxe"/>
@@ -161,6 +161,7 @@
                                         <color key="backgroundColor" red="0.96470588235294119" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="addressLabel" destination="GWf-sb-Pfi" id="rsL-1w-dbW"/>
+                                            <outlet property="cellImage" destination="erN-JF-ZSW" id="1Df-jc-ZLS"/>
                                             <outlet property="cityStateLabel" destination="9rY-G6-iME" id="3n9-l9-md7"/>
                                             <outlet property="emailLabel" destination="1od-UD-SK1" id="TqT-O4-lIg"/>
                                             <outlet property="nameLabel" destination="IK2-KW-vlS" id="bhL-w5-1cr"/>
@@ -444,5 +445,8 @@
             <point key="canvasLocation" x="840" y="-166"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cell-image" width="84" height="84"/>
+    </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

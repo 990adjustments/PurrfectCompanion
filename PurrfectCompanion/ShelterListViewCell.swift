@@ -16,6 +16,7 @@ class ShelterListViewCell: UITableViewCell {
     @IBOutlet weak var zipCodeLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var telephoneLabel: UILabel!
+    @IBOutlet weak var cellImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
