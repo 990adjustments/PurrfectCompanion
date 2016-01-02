@@ -30,6 +30,12 @@ arrived at the shelter.
 
 In order to delete a pin from the main map screen, just tap on edit and tap on the pin to delete.
 
+Compiling
+----------
+
+The project was build using Xcode 7.2, iOS SDK 9.2, and Swift 2.1.1 All you need to do to compile
+is build and run. The application has been tested on the simulator and physical iOS device(iPhone 6 Plus).
+
 Legal
 -----
 
