@@ -133,7 +133,6 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
         let id = cat?.id!
         //let imagePath = Utilities.fileOperations.CACHE_DIR.URLByAppendingPathComponent(id!)
         let imagePath = Utilities.fileOperations.CACHE_DIR.URLByAppendingPathComponent(shelter.id!+"/"+id!)
-        //print(imagePath)
         
         if let imageData = Utilities.fileOperations.FILE_MANAGER.contentsAtPath(imagePath.path!) {
             //print("DISK DATA")
@@ -148,11 +147,14 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
             // File is not on disk, so download from network
             // First create a background context for long operation
             //print("NETWORK DATA")
+            let shelterid = shelter.id!
+            
             var temporaryContext: NSManagedObjectContext!
             temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
             temporaryContext.persistentStoreCoordinator = self.sharedContext.persistentStoreCoordinator
             
             temporaryContext.performBlock({ () -> Void in
+                //print("THREAD ONE: \(NSThread.isMainThread())")
                 var mo: Cat!
                 
                 do {
@@ -162,27 +164,30 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
                     print(error)
                 }
                 
-                let photoSet = mo.valueForKey("photos") as! Set<Photo>
+                //let photoSet = mo.valueForKey("photos") as! Set<Photo>
+                let photoSet = mo.photos as! Set<Photo>
                 
                 // I will eventually deal with multiple photosets
                 // For now I will use the first image
                 let photo = photoSet.first!
-                if let imageUrlString = photo.valueForKey("imgUrl") {
-                    if let imageUrl = NSURL(string: imageUrlString as! String) {
-                        //print("imgUrl: \(imageUrl)")
+                let id = photo.id
+                
+                if let imageUrlString = photo.imgUrl {
+                    if let imageUrl = NSURL(string: imageUrlString) {
                         if let imageData = NSData(contentsOfURL: imageUrl) {
                             // Save data to disk
-                            //photo.savePathUrl(photo.id!)
-                            photo.savePathUrl(photo.id!, shelterid: self.shelter.id!)
-                            
+                            //print("THREAD TWO: \(NSThread.isMainThread())")
+                            photo.savePathUrl(id!, imgUrl: imageUrlString, shelterid: shelterid)
+
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                //print("THREAD FOUR: \(NSThread.isMainThread())")
                                 cell.photoCell.image = UIImage(data: imageData)
                                 cell.activityIndicator.stopAnimating()
                             })
                         }
                     }
                 }
-            })
+           })
         }
     }
     
@@ -191,7 +196,7 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
         /*
         // Used for debugging
         let fetchRequest = NSFetchRequest(entityName: "Cat")
-        fetchRequest.predicate = NSPredicate(format: "shelter == %@", self.shelter);
+        fetchRequest.predicate = NSPredicate(format: "shelter == %@", self.shelter)
         
         do {
             let results = try sharedContext.executeFetchRequest(fetchRequest)
@@ -402,6 +407,20 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
     
     func refreshCollection()
     {
+        let connection = Utilities.isConnectedToNetwork()
+        if !connection {
+            presentAlert("There has been a connection error. The Internet connection appears to be offline.", completionHandler: { (bool) -> () in
+                if bool {
+                    print("Try refetch")
+                    self.refreshCollection()
+                }
+                else {
+                    print("Bail out")
+                    return
+                }
+            })
+        }
+        
         let pet = fetchedResultsController.fetchedObjects as! [Cat]
         
         for i in pet {
@@ -410,7 +429,7 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
         }
         
         self.client.getPetInfo(shelter, ShelterID: shelter.id!, completion: { (errorstring) -> () in
-            print(NSThread.isMainThread())
+            //print(NSThread.isMainThread())
             
             self.catList = Utilities.fetchObjects(self.fetchedResultsController) as! [Cat]
             
@@ -418,6 +437,24 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
                 self.collectionView.reloadData()
             })
         })
+    }
+    
+    func presentAlert(error: String?, completionHandler:(Bool) -> ())
+    {
+        let alertController = UIAlertController(title: "Connection Error", message: error, preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
+            completionHandler(false)
+        }
+        
+        let retryAction = UIAlertAction(title: "Retry", style: .Default) { (action) -> Void in
+            completionHandler(true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(retryAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

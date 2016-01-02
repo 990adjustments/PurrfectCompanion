@@ -15,11 +15,12 @@ private let REUSE_IDENTIFIER = "Cell"
 class ShelterListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate, CLLocationManagerDelegate, NSFetchedResultsControllerDelegate {
     
     var mapCoordinates: CLLocationCoordinate2D!
+    var refreshButton: UIBarButtonItem!
     var lat: String?
     var long: String?
     
+    // Will implement this in the future
     //var editButton: UIBarButtonItem!
-    //var refreshButton: UIBarButtonItem!
     //var trashButton: UIBarButtonItem!
     //var flexSpaceButton: UIBarButtonItem!
     
@@ -50,6 +51,7 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
         return fetchedResultsController
     }()
     
+    @IBOutlet weak var searcbar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var mapView: MKMapView! {
@@ -67,38 +69,12 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
         
         shelterList = Utilities.fetchObjects(fetchedResultsController) as! [Shelter]
         
-        //*********************************************************************************
-        //*********************************************************************************
-        
-        // Tryig to retrieve data in background but UI still seems to lock up
-        
-        //*********************************************************************************
-        //*********************************************************************************
-        
-        // Begin long process
-        /*
+        // Begin long process to grab pet information
         var temporaryContext: NSManagedObjectContext!
         temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
         temporaryContext.persistentStoreCoordinator = self.sharedContext.persistentStoreCoordinator
         
-        temporaryContext.performBlock({ () -> Void in
-            for shelterItem in self.shelterList {
-                
-                self.client.getPetInfo(shelterItem, ShelterID: shelterItem.id!, completion: { (errorstring) -> () in
-                    if let err = errorstring {
-                        print(err)
-                        return
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.tableView.reloadData()
-                    })
-                })
-            }
-        })
-        */
-
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) { () -> Void in
+        sharedContext.performBlock({ () -> Void in
             for shelterItem in self.shelterList {
                 if shelterItem.cats?.count == 0 {
                 
@@ -107,14 +83,10 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
                             print(err)
                             return
                         }
-                        
-    //                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-    //                        self.tableView.reloadData()
-    //                    })
                     })
                 }
             }
-        }
+        })
         
         setupUI()
         setupMap()
@@ -129,12 +101,19 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.reloadData()
     }
     
+    override func viewWillDisappear(animated: Bool)
+    {
+        super.viewWillDisappear(animated)
+        
+        searchBarCancelButtonClicked(searcbar)
+    }
+    
     func setupUI()
     {
         // Navigation buttons
-        //refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("refreshCollection"))
+        refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("refreshCollection"))
         
-        //navigationItem.setRightBarButtonItems([refreshButton], animated: true)
+        navigationItem.setRightBarButtonItems([refreshButton], animated: true)
         navigationItem.title = pin.title
     }
     
@@ -189,6 +168,160 @@ class ShelterListViewController: UIViewController, UITableViewDelegate, UITableV
         cell.telephoneLabel.text = shelterInfo.telephone
 
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        pushCollectionViewController(indexPath)
+    }
+    
+    func pushCollectionViewController(indexpath: NSIndexPath!)
+    {
+        let connection = Utilities.isConnectedToNetwork()
+        if !connection {
+            presentAlert("There has been a connection error. The Internet connection appears to be offline.", completionHandler: { (bool) -> () in
+                if bool {
+                    print("Try again")
+                    self.pushCollectionViewController(indexpath)
+                }
+                else {
+                    print("Bail out")
+                    self.tableView.deselectRowAtIndexPath(indexpath, animated: true)
+                    return
+                }
+            })
+        }
+        else {
+            performSegueWithIdentifier("shelterSegueID", sender: self)
+        }
+    }
+    
+    func presentAlert(error: String?, completionHandler:(Bool) -> ())
+    {
+        let alertController = UIAlertController(title: "Connection Error", message: error, preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) -> Void in
+            completionHandler(false)
+        }
+        
+        let retryAction = UIAlertAction(title: "Retry", style: .Default) { (action) -> Void in
+            completionHandler(true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(retryAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func refreshCollection()
+    {
+        let connection = Utilities.isConnectedToNetwork()
+        
+        if !connection {
+            presentAlert("There has been a connection error. The Internet connection appears to be offline.", completionHandler: { (bool) -> () in
+                if bool {
+                    print("Try refetch")
+                    self.refreshCollection()
+                }
+                else {
+                    print("Bail out")
+                    return
+                }
+            })
+        }
+        else {
+            tableView.alpha = 0.5
+            retrievePetInformation()
+        }
+    }
+    
+    func retrievePetInformation()
+    {
+        let fetchedShelters = fetchedResultsController.fetchedObjects as! [Shelter]
+        
+        for i in fetchedShelters {
+            sharedContext.deleteObject(i)
+        }
+        
+        client.getShelterInfo(pin) { (errorstring) -> () in
+            if let err = errorstring {
+                print("Error retrieving shelter information: \(err)")
+            }
+            
+            self.shelterList = Utilities.fetchObjects(self.fetchedResultsController) as! [Shelter]
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.tableView.reloadData()
+                self.tableView.alpha = 1.0
+            })
+            
+            self.sharedContext.performBlock({ () -> Void in
+                for shelterItem in self.shelterList {
+                    if shelterItem.cats?.count == 0 {
+                        
+                        self.client.getPetInfo(shelterItem, ShelterID: shelterItem.id!, completion: { (errorstring) -> () in
+                            if let err = errorstring {
+                                print("Error retrieving pet information: \(err)")
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    }
+    
+    // MARK: - Search
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        searchBar.setShowsCancelButton(true, animated: true)
+        
+        if !searchText.isEmpty {
+            // Setup the fetch request
+            let fetchRequest = NSFetchRequest(entityName: "Shelter")
+            
+            fetchRequest.fetchLimit = 25
+            
+            //set OR predicate to search for shelter by name or location
+            let namePredicate = NSPredicate(format: "name contains[c] %@", searchText)
+            let locationPredicate = NSPredicate(format: "location contains[c] %@", searchText)
+            let zipcodePredicate = NSPredicate(format: "zipCode contains[c] %@", searchText)
+            let compoundOrPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: [namePredicate, locationPredicate, zipcodePredicate])
+            
+            //fetchRequest.predicate = NSPredicate(format: "name contains[c] %@", searchText)
+            fetchRequest.predicate = compoundOrPredicate
+            
+            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            
+            // Pass the fetchRequest and the context as parameters to the fetchedResultController
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext:sharedContext,
+                sectionNameKeyPath: nil, cacheName: nil)
+            
+            fetchedResultsController.delegate = self
+            
+            shelterList = Utilities.fetchObjects(fetchedResultsController) as! [Shelter]
+            tableView.reloadData()
+        }
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
+        searchBar.text = nil
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+        
+        // Bring back original data
+        let fetchRequest = NSFetchRequest(entityName: "Shelter")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "pin == %@", self.pin);
+        
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        shelterList = Utilities.fetchObjects(fetchedResultsController) as! [Shelter]
+        
+        tableView.reloadData()
     }
 
     // MARK: - Navigation

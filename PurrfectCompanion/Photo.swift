@@ -14,7 +14,7 @@ class Photo: NSManagedObject {
     
     var dataDir: NSURL?
 
-    func savePathUrl(photoid: String!, shelterid: String!) -> NSURL?
+    func savePathUrl(photoid: String!, imgUrl: String!, shelterid: String!) -> NSURL?
     {
         dataDir = Utilities.fileOperations.CACHE_DIR
         //print(dataDir)

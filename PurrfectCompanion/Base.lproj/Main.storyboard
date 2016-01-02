@@ -79,7 +79,7 @@
                                 </constraints>
                             </mapView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="115" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NAJ-df-Gg9">
-                                <rect key="frame" x="0.0" y="220" width="414" height="516"/>
+                                <rect key="frame" x="0.0" y="264" width="414" height="472"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="115" id="LNF-W3-eUc" customClass="ShelterListViewCell" customModule="PurrfectCompanion" customModuleProvider="target">
@@ -167,7 +167,6 @@
                                             <outlet property="nameLabel" destination="IK2-KW-vlS" id="bhL-w5-1cr"/>
                                             <outlet property="telephoneLabel" destination="X1v-7k-vCO" id="z5k-tg-rjV"/>
                                             <outlet property="zipCodeLabel" destination="ZJR-aG-dR6" id="MHs-hx-2ev"/>
-                                            <segue destination="to5-jO-yms" kind="show" identifier="shelterSegueID" id="HAH-UM-2b0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -176,14 +175,21 @@
                                     <outlet property="delegate" destination="yCA-wQ-zft" id="wMr-DC-Ug8"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Shelter Name" translatesAutoresizingMaskIntoConstraints="NO" id="7gj-7j-jBf">
+                                <rect key="frame" x="0.0" y="220" width="414" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="yCA-wQ-zft" id="X1f-gY-HPb"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="6rW-tA-Kw1" firstAttribute="top" secondItem="NAJ-df-Gg9" secondAttribute="bottom" id="26Y-k0-cIq"/>
-                            <constraint firstItem="NAJ-df-Gg9" firstAttribute="top" secondItem="5FI-y2-Twv" secondAttribute="bottom" id="Mvg-zq-Xbj"/>
+                            <constraint firstItem="NAJ-df-Gg9" firstAttribute="top" secondItem="5FI-y2-Twv" secondAttribute="bottom" constant="44" id="Mvg-zq-Xbj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5FI-y2-Twv" secondAttribute="trailing" constant="-20" id="TpQ-lX-KPA"/>
                             <constraint firstItem="NAJ-df-Gg9" firstAttribute="leading" secondItem="wuZ-v5-TL8" secondAttribute="leadingMargin" constant="-20" id="XIi-aD-DnZ"/>
-                            <constraint firstItem="NAJ-df-Gg9" firstAttribute="top" secondItem="5FI-y2-Twv" secondAttribute="bottom" id="YFQ-A9-aSu"/>
+                            <constraint firstItem="NAJ-df-Gg9" firstAttribute="top" secondItem="5FI-y2-Twv" secondAttribute="bottom" constant="44" id="YFQ-A9-aSu"/>
                             <constraint firstItem="5FI-y2-Twv" firstAttribute="leading" secondItem="wuZ-v5-TL8" secondAttribute="leadingMargin" constant="-20" id="rLa-Qb-oXi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="NAJ-df-Gg9" secondAttribute="trailing" constant="-20" id="sUc-Lo-UOZ"/>
                             <constraint firstItem="5FI-y2-Twv" firstAttribute="top" secondItem="wuZ-v5-TL8" secondAttribute="topMargin" id="zvp-Sf-wCY"/>
@@ -193,7 +199,9 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="mapView" destination="5FI-y2-Twv" id="Js1-EG-IMA"/>
+                        <outlet property="searcbar" destination="7gj-7j-jBf" id="qlZ-hl-1lr"/>
                         <outlet property="tableView" destination="NAJ-df-Gg9" id="Icb-t6-ZdY"/>
+                        <segue destination="to5-jO-yms" kind="show" identifier="shelterSegueID" id="KRk-QI-3pO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S45-Zx-QrJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
