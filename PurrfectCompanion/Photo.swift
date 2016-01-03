@@ -17,7 +17,6 @@ class Photo: NSManagedObject {
     func savePathUrl(photoid: String!, imgUrl: String!, shelterid: String!) -> NSURL?
     {
         dataDir = Utilities.fileOperations.CACHE_DIR
-        //print(dataDir)
         
         // Check for data directory
         if !Utilities.fileOperations.FILE_MANAGER.fileExistsAtPath((dataDir?.path)!) {
@@ -31,11 +30,16 @@ class Photo: NSManagedObject {
         }
         
         let nsurl = NSURL(string: imgUrl!)
-        let data = NSData(contentsOfURL: nsurl!)
-        //let path = dataDir?.URLByAppendingPathComponent(photoid)
         
+        let data = NSData(contentsOfURL: nsurl!)
+        
+        guard let imageData = data else {
+            print("Image data incomplete")
+            return nil
+        }
+        
+        // Create subdirectory for shelter images
         let shelterDir = dataDir?.URLByAppendingPathComponent(shelterid, isDirectory: true)
-        //print(shelterDir!)
         
         if !Utilities.fileOperations.FILE_MANAGER.fileExistsAtPath((shelterDir?.path)!) {
             print("Create shelter subdirectory")
@@ -48,16 +52,19 @@ class Photo: NSManagedObject {
         }
         
         let path = shelterDir?.URLByAppendingPathComponent(photoid)
-        //print(path!)
         
-        data!.writeToURL(path!, atomically: true)
+        guard let _ = path else {
+            print("Invalid path")
+            return nil
+        }
+        
+        imageData.writeToURL(path!, atomically: true)
         
         return path
     }
     
     override func prepareForDeletion()
     {
-        //let _ = Utilities.imageCleanup(id!)
         let _ = Utilities.imageCleanup(id!, shelterid: shelterId!)
     }
 

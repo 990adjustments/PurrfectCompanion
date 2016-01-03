@@ -131,6 +131,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func dropAnnotation(loc: CLLocation) -> ()
     {
+        //print(__FUNCTION__)
         getPlacemarkFromLocation(loc) { (placemark, error) -> () in
             if let err = error {
                 let errorString = err.localizedDescription
@@ -201,11 +202,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     })
                 })
             }
+            else {
+                self.mapView.alpha = 1.0
+                self.activityIndicator.stopAnimating()
+            }
         }
     }
     
     func getPlacemarkFromLocation(location: CLLocation, handler: (CLPlacemark?, NSError?) -> ())
     {
+        //print(__FUNCTION__)
+        
         CLGeocoder().reverseGeocodeLocation(location) { (placemarks, error) -> Void in
             if let err = error {
                 print("Reverse Geocode failed: \(error!.localizedDescription)")
@@ -217,6 +224,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
             }
             
+            self.mapView.alpha = 1.0
+            self.activityIndicator.stopAnimating()
             return handler(nil, nil)
         }
     }

@@ -12,6 +12,7 @@ import CoreData
 class PetViewController: UIViewController {
 
     var cat: Cat!
+    var noData: Bool!
     
     // UI outlets
     @IBOutlet weak var petImage: UIImageView!
@@ -26,6 +27,8 @@ class PetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        noData = false
+        
         setupUI()
         setupData()
     }
@@ -33,6 +36,10 @@ class PetViewController: UIViewController {
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
+        
+        if noData == true {
+            return
+        }
         
         let labels = [nameLabel, shelterIDLabel, ageLabel, sexLabel]
         var step = 0.2
@@ -67,12 +74,25 @@ class PetViewController: UIViewController {
             ageLabel.alpha = 0
             sexLabel.alpha = 0
         }
+        else {
+            petImage.image = UIImage(named: "no-pictures")
+            shelterNameLabel.text = "Unable to download pet information."
+            nameLabel.alpha = 0
+            shelterIDLabel.alpha = 0
+            ageLabel.alpha = 0
+            sexLabel.alpha = 0
+            
+            noData = true
+            shareButton.enabled = false
+            navigationItem.title = ""
+        }
     }
     
     func setupUI()
     {
         shareButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action , target: self, action: Selector("sharePet"))
         navigationItem.setRightBarButtonItem(shareButton, animated: true)
+        shareButton.enabled = true
         navigationItem.title = cat.name
         
         // Remove text from back button
@@ -81,6 +101,10 @@ class PetViewController: UIViewController {
     
     func sharePet()
     {
+        if noData == true {
+            return
+        }
+        
         let petInfo = "Hi! I'm \(cat.name!). I'm at \(cat.shelter!.name!) in \(cat.shelter!.location!). Please adopt me!"
         let activityVC = UIActivityViewController(activityItems: [petInfo, petImage.image!], applicationActivities: nil)
         

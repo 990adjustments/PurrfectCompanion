@@ -175,7 +175,7 @@
                                     <outlet property="delegate" destination="yCA-wQ-zft" id="wMr-DC-Ug8"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Shelter Name" translatesAutoresizingMaskIntoConstraints="NO" id="7gj-7j-jBf">
+                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Shelter Name, City, or Zip code" translatesAutoresizingMaskIntoConstraints="NO" id="7gj-7j-jBf">
                                 <rect key="frame" x="0.0" y="220" width="414" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>

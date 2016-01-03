@@ -17,6 +17,7 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
     var shelter: Shelter!
     var catList: [Cat]!
     var client: Client!
+    var alertCount: Int!
     
     // UI objects
     var editButton: UIBarButtonItem!
@@ -62,6 +63,7 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
         catList = Utilities.fetchObjects(fetchedResultsController) as! [Cat]
         
         setupUI()
+        alertCount = 0
     }
     
     override func viewWillAppear(animated: Bool)
@@ -147,6 +149,7 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
             // File is not on disk, so download from network
             // First create a background context for long operation
             //print("NETWORK DATA")
+            
             let shelterid = shelter.id!
             
             var temporaryContext: NSManagedObjectContext!
@@ -160,35 +163,79 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
                 do {
                     mo = try temporaryContext.existingObjectWithID((cat?.objectID)!) as! Cat
                 }
-                catch {
-                    print(error)
+                catch let error as NSError{
+                    print("Cat object not available: \(error)")
                 }
                 
-                //let photoSet = mo.valueForKey("photos") as! Set<Photo>
-                let photoSet = mo.photos as! Set<Photo>
+                let photoSet = mo.photos as? Set<Photo>
                 
-                // I will eventually deal with multiple photosets
-                // For now I will use the first image
-                let photo = photoSet.first!
-                let id = photo.id
-                
-                if let imageUrlString = photo.imgUrl {
-                    if let imageUrl = NSURL(string: imageUrlString) {
-                        if let imageData = NSData(contentsOfURL: imageUrl) {
-                            // Save data to disk
-                            //print("THREAD TWO: \(NSThread.isMainThread())")
-                            photo.savePathUrl(id!, imgUrl: imageUrlString, shelterid: shelterid)
-
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                //print("THREAD FOUR: \(NSThread.isMainThread())")
-                                cell.photoCell.image = UIImage(data: imageData)
-                                cell.activityIndicator.stopAnimating()
-                            })
+                if let photo = photoSet!.first {
+                    let id = photo.id
+                    
+                    if let imageUrlString = photo.imgUrl {
+                        if let imageUrl = NSURL(string: imageUrlString) {
+                            if let imageData = NSData(contentsOfURL: imageUrl) {
+                                // Save data to disk
+                                print("Writing to disk")
+                                let writeResults = photo.savePathUrl(id!, imgUrl: imageUrlString, shelterid: shelterid)
+                                
+                                if let _ = writeResults {
+                                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                        cell.photoCell.image = UIImage(data: imageData)
+                                        cell.activityIndicator.stopAnimating()
+                                    })
+                                }
+                                else {
+                                    print("Unable to write data to disk.")
+                                    let error = "Unable to write data to disk."
+                                    self.usePlaceholder(cell, error: error)
+                                }
+                            }
+                            else {
+                                print("No image data available.")
+                                let error = "No image data available."
+                                self.usePlaceholder(cell, error: error)
+                            }
+                        }
+                        else {
+                            print("NSURL nil")
+                            let error = "NSURL data is invalid."
+                            self.usePlaceholder(cell, error: error)
                         }
                     }
+                    else {
+                        print("The image URL is invalid.")
+                        let error = "The image URL is invalid."
+                        self.usePlaceholder(cell, error: error)
+                    }
+                }
+                else {
+                    print("Photo information not available.")
+                    let error = "Photo information not available."
+                    self.usePlaceholder(cell, error: error)
                 }
            })
         }
+    }
+    
+    func usePlaceholder(cell: ShelterViewCell, error: String?)
+    {
+        alertCount = alertCount + 1
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            // Only want to call alert once
+            if self.alertCount == 1 {
+                let alertController = UIAlertController(title: "Connection Error", message: error!, preferredStyle: .Alert)
+                let OKAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                
+                alertController.addAction(OKAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+            
+            cell.photoCell.image = UIImage(named: "no-image")
+            cell.activityIndicator.stopAnimating()
+        })
     }
     
     func deleteImages()
@@ -266,7 +313,6 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
             let index = collectionView.indexPathsForSelectedItems()?.first!
             catList = Utilities.fetchObjects(fetchedResultsController) as! [Cat]
             
-            //let catItem = catList[(index?.item)!]
             let catItem = catList[(index?.row)!]
             vc.cat = catItem
         }
@@ -424,7 +470,6 @@ class ShelterViewController: UIViewController, MKMapViewDelegate, CLLocationMana
         let pet = fetchedResultsController.fetchedObjects as! [Cat]
         
         for i in pet {
-            //let _ = Utilities.imageCleanup(i.id!)
             sharedContext.deleteObject(i)
         }
         
