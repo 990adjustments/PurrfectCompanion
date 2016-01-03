@@ -172,7 +172,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                             }
                         })
                     })
-                    
                     return
                 }
                 self.sharedContext.performBlock({ () -> Void in
@@ -197,6 +196,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                 self.mapView.addAnnotation(self.pin)
                                 self.editButton.enabled = true
                                 
+                            })
+                        }
+                        else {
+                            // Unable to acquire the proper data
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.presentAlert(errorstring, completionHandler: { (bool) -> () in
+                                    if bool {
+                                        print("Try refetch")
+                                        self.dropAnnotation(loc)
+                                    }
+                                    else {
+                                        print("Bail out")
+                                        self.mapView.alpha = 1.0
+                                        self.activityIndicator.stopAnimating()
+                                        return
+                                    }
+                                })
                             })
                         }
                     })
